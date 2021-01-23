@@ -1,19 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View, SafeAreaView, TextInput, Button, Dimensions, useWindowDimensions } from 'react-native';
 import Todo from './Todo';
-import { LineChart, BarChart } from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
+import moment from 'moment';
 
 const App = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState('');
   const [total, setTotal] = useState(0);
+  const [transformedData, setTransformedData] = useState([]);
+  const [data, setData] = useState([
+    { date: moment().format('LL'), amount: 200 },
+    { date: moment().subtract(1, 'days').format('LL'), amount: 1200 },
+    { date: moment().subtract(2, 'days').format('LL'), amount: 2200 },
+    { date: moment().subtract(3, 'days').format('LL'), amount: 200 },
+    { date: moment().subtract(3, 'days').format('LL'), amount: 500 },
+  ]);
+
+  useEffect(() => {
+    setTransformedData(transformData(groupBy(data, 'date')))
+  }, [data]);
+
   const [entries, setEntries] = useState([
     {
       description: "Start",
       amount: 100,
-      timestamp: new Date(),
+      date: new Date(),
     }
   ]);
+
+  const groupBy = (dataArray, key) =>
+    dataArray.reduce((rv, x) => {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
+
+  const getDates = () => transformedData.map(pair => pair.date);
+  const getAmounts = () => transformedData.map(pair => pair.amount);
+
+  const transformData = (groupedData) => {
+    const newData = [];
+
+    Object.entries(groupedData).forEach(value => {
+      const total = value[1].reduce((total, pair) => total = + pair.amount, 0);
+      newData.push({ date: moment(value[0]).format('MMM D'), amount: total });
+    });
+
+    const temp = newData.sort((a, b) => a['date'] - b['date'])
+
+    return temp;
+  }
 
   useEffect(() => {
     setTotal(entries.reduce((total, entry) => total + Number(entry.amount), 0))
@@ -23,8 +59,16 @@ const App = () => {
     setEntries([...entries, {
       description: description,
       amount: amount,
-      timestamp: new Date()
+      date: new Date()
     }]);
+
+    setData([
+      ...data,
+      {
+        date: moment().format('LL'),
+        amount: Number(amount)
+      }
+    ]);
 
     setDescription('')
     setAmount('')
@@ -40,16 +84,10 @@ const App = () => {
         <Text>Bezier Line Chart</Text>
         <LineChart
           data={{
-            labels: ["January", "February", "March", "April", "May"],
+            labels: getDates(),
             datasets: [
               {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100
-                ]
+                data: getAmounts(),
               }
             ]
           }}
