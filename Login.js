@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
@@ -12,10 +12,16 @@ const styles = StyleSheet.create({
     },
 });
 
-const Login = () => {
+const Login = ({ navigation }) => {
 
     const [username, setUsername] = useState('');
     const [password, SetPassword] = useState('');
+
+    const login = () => {
+        if (username == 'Anand' && password == '1234') {
+            navigation.navigate('Home');
+        }
+    }
 
     return (
         <View>
@@ -33,6 +39,8 @@ const Login = () => {
                 secureTextEntry={true}
                 onChangeText={text => SetPassword(text)}
             />
+
+            <Button title='Login' onPress={login} />
         </View>
     )
 }
