@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const Homepage = () => {
+const Homepage = ({ navigation }) => {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState('');
     const [total, setTotal] = useState(0);
@@ -100,8 +100,10 @@ const Homepage = () => {
                 <Text style={styles.titleText}>Income Tracking App</Text>
             </View>
 
+            <Button title='Login' onPress={() => navigation.navigate('Login')} />
+
             <View>
-                <Text>Bezier Line Chart</Text>
+                <Text>My Income Chart</Text>
                 <LineChart
                     data={{
                         labels: getDates(),
