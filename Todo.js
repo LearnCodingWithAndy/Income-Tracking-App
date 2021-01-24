@@ -10,7 +10,3 @@ const Todo = ({ title }) => {
 }
 
 export default Todo;
-
-const styles = StyleSheet.create({
-
-});

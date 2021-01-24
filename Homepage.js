@@ -4,6 +4,34 @@ import Todo from './Todo';
 import { LineChart } from "react-native-chart-kit";
 import moment from 'moment';
 
+const styles = StyleSheet.create({
+    todoInput: {
+        margin: 10,
+        height: 40,
+        borderColor: "black",
+        borderWidth: 2.5,
+        borderRadius: 4
+    },
+    titleText: {
+        marginTop: 30,
+        marginBottom: 15,
+        fontWeight: 'bold',
+        fontSize: 30,
+        textAlign: 'center',
+    },
+    totalIncome: {
+        fontSize: 20,
+        marginBottom: 10,
+        marginLeft: 10,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
 const Homepage = () => {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState('');
@@ -146,35 +174,5 @@ const Homepage = () => {
         </SafeAreaView>
     );
 }
-
-export default App
-
-const styles = StyleSheet.create({
-    todoInput: {
-        margin: 10,
-        height: 40,
-        borderColor: "black",
-        borderWidth: 2.5,
-        borderRadius: 4
-    },
-    titleText: {
-        marginTop: 30,
-        marginBottom: 15,
-        fontWeight: 'bold',
-        fontSize: 30,
-        textAlign: 'center',
-    },
-    totalIncome: {
-        fontSize: 20,
-        marginBottom: 10,
-        marginLeft: 10,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default Homepage;
